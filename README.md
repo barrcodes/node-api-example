@@ -43,4 +43,4 @@ For production purposes, I added CORS logic which accepts a whitelist array of o
 
 ## Unit Tests
 
-This application has nearly 100% test coverage. Tests can be found in `./tests`, and tests can be run with `npm test`
+Tests can be found in `./tests`, and tests can be run with `npm test`
