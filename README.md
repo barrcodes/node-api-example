@@ -7,27 +7,38 @@ A node API example for a tech screening
 - Install node
 - Install docker
 - Install docker-compose
+- Install postgres cli
 - Maintenance of the database requires installing postgres, but code review should not require this
 
 ## Database Setup
 
-- Create a file named `.env` in the root of the project (see "Environment Variables" for more details)
-- Install docker and docker-compose
-- Launch the postgres database from cli.
-  - On mac/linux `sh start-db.sh`.
-  - Otherwise, `sudo docker compose -f ./db/docker-compose-postgres.yml --env-file ./.env up`
-- Initialize the postgres database from cli.
-  - On mac/linux `sh create-db.sh`
-  - Otherwise, `psql -h '127.0.0.1' -p [port] -U [user] -W -f [/absolute/path/to/db/init-db.sql]`
+### Environment
 
-## Environment Variables
-
-Create a file named `.env` in the root of the project, containing the following variables. You can use whatever values you wish. The .env is not stored on github as a security configuration, and in production the values would be stored in build variables of a CI/CD pipeline.
+Create a file named `.env` in the root of the project. You can use whatever values you wish. The .env is not stored on github as a security configuration, and in production the values would be stored in build variables of a CI/CD pipeline.
 
 ```
 PGUSER=user
 PGPASSWORD=password
+PGHOST=127.0.0.1
 PGPORT=5432
+PGDB=dbname
+```
+
+### Initializing the docker image
+
+- On mac/linux/wsl `sh start-db.sh`.
+- Or, manually, `sudo docker compose -f ./db/docker-compose-postgres.yml --env-file ./.env up`
+
+### Initialize the postgres database:
+
+- On mac/linux/wsl you can simply run `sh create-db.sh`
+- otherwise, you will need to create the db and table manually. Sql files are found in `./db/`
+
+Manual commands (not necessary if you ran `create-db.sh`)
+
+```
+psql -h '127.0.0.1' -p [port] -U [user] -W -f [/absolute/path/to/db/create-db.sql]
+psql -h '127.0.0.1' -p [port] -U [user] -W -f [/absolute/path/to/db/create-tables.sql] -d [dbname]
 ```
 
 ### Optional Environment Variables
