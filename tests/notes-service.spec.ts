@@ -5,53 +5,12 @@ import {
 } from "../src/errors"
 import { Note } from "../src/models"
 import { NotesService } from "../src/services"
+import { createMockNote, MockNotesRepository, MockTable } from "./mocks"
 
 describe("NotesService", () => {
-  const createMockNote = (id: number, createdBy: number): Note => ({
-    id,
-    createdBy,
-    createdOn: new Date(),
-    title: "title",
-    contents: "contents",
-  })
-
-  const mockRepo: any = {
-    name: "mockRepo",
-    getNotes: (userId: number) => {
-      const notes = Object.values(mockTable).filter(
-        (n) => n.createdBy === userId
-      )
-      return Promise.resolve(notes)
-    },
-    getNote: (id: number) => {
-      const note = mockTable[id]
-      return Promise.resolve(note)
-    },
-    createNote: (userId: number, note: Note) => {
-      const ids = Object.keys(mockTable).map((k) => +k)
-      const id = Math.max(...ids) + 1
-      mockTable[id] = {
-        id,
-        createdBy: userId,
-        ...(note as any),
-      }
-      return Promise.resolve()
-    },
-    updateNote: (id: number, { title, contents }: Note) => {
-      const note = mockTable[id!]
-      console.log(`${id}`, note)
-      note.title = title
-      note.contents = contents
-      return Promise.resolve()
-    },
-    deleteNote: (id: number) => {
-      delete mockTable[id]
-      return Promise.resolve()
-    },
-  }
-  const notesService = new NotesService(mockRepo)
-
-  let mockTable: { [key: number]: Note }
+  let mockTable: MockTable<Note>
+  let mockRepo: MockNotesRepository
+  let notesService: NotesService
 
   beforeEach(() => {
     mockTable = {
@@ -60,6 +19,8 @@ describe("NotesService", () => {
       3: createMockNote(3, 2),
       4: createMockNote(4, 2),
     }
+    mockRepo = new MockNotesRepository(mockTable)
+    notesService = new NotesService(mockRepo as any)
   })
 
   it("getNotes should return notes for a user", async () => {
