@@ -8,72 +8,130 @@ A node API example for a tech screening
 - Install docker
 - Install docker-compose
 - Install postgres cli
-- Maintenance of the database requires installing postgres, but code review should not require this
 
 ## Database Setup
 
 ### Environment
 
-Create a file named `.env` in the root of the project. You can use whatever values you wish. The .env is not stored on github as a security configuration, and in production the values would be stored in build variables of a CI/CD pipeline.
+To reduce hassle, I included the environment `.env` file. For security reasons, I would not include this file in a real project.
+
+The contents of my environment, for easy reference in further sections:
 
 ```
-PGUSER=user
-PGPASSWORD=password
+PORT=60078
+PGUSER=myapiuser
+PGPASSWORD=12345
 PGHOST=127.0.0.1
-PGPORT=5432
-PGDB=dbname
+PGPORT=25580
+PGDB=notes
 ```
 
 ### Initializing the docker image
 
-- On mac/linux/wsl `sh start-db.sh`.
-- Or, manually, `sudo docker compose -f ./db/docker-compose-postgres.yml --env-file ./.env up`
+On Mac / Linux / WSL:
+
+```bash
+sh start-db.sh
+```
+
+Or Manually:
+
+```bash
+sudo docker compose -f ./db/docker-compose-postgres.yml --env-file ./.env up
+```
 
 ### Initialize the postgres database:
 
-- On mac/linux/wsl you can simply run `sh create-db.sh`
-- otherwise, you will need to create the db and table manually. Sql files are found in `./db/`
+On Mac / Linux / WSL:
 
-Manual commands (not necessary if you ran `create-db.sh`)
-
+```bash
+sh create-db.sh
 ```
-psql -h '127.0.0.1' -p [port] -U [user] -W -f [/absolute/path/to/db/create-db.sql]
-psql -h '127.0.0.1' -p [port] -U [user] -W -f [/absolute/path/to/db/create-tables.sql] -d [dbname]
+
+Or Manually (sql files are located in [./db](https://github.com/barrcodes/node-api-example/tree/main/db)):
+
+```bash
+psql -h '127.0.0.1' -p 25580 -U myapiuser -W -f [/absolute/path/to/db/create-db.sql]
+```
+
+```bash
+psql -h '127.0.0.1' -p 25580 -U myapiuser -W -f [/absolute/path/to/db/create-tables.sql] -d notes
+```
+
+## Project Setup
+
+### Install dependencies
+
+```bash
+npm i
+```
+
+### Run the application
+
+```bash
+npm start
+```
+
+### Run Unit Tests
+
+Tests can be found in `./tests`, and tests can be run with
+
+```bash
+npm test
 ```
 
 ### Optional Environment Variables
 
-If your system already has port 8080 bound, you can specify a port for the application inside the `.env` file using `PORT=[your port]`.
-
-For production purposes, I added CORS logic which accepts a whitelist array of origins via `ALLOW_LIST=origin1,origin2`, however, running the application locally will not trigger this logic, as origin will be undefined. Unit tests for these cases have been written.
-
-## Project Setup
-
-- Install dependencies with `npm i`
-- Run the application with `npm start`
-
-## Unit Tests
-
-Tests can be found in `./tests`, and tests can be run with `npm test`
+`ALLOW_LIST=origin1,origin2`: A list of CORS allowed orgins. However, running the application locally will not trigger this logic, as origin will be undefined. Unit tests for these cases have been written.
 
 ## Example curl Requests
 
 ### POST note
 
-curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X POST -d '{"title": "tile", "contents": "some text"}' 127.0.0.1:8080/notes
+```bash
+curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X POST -d '{"title": "tile1", "contents": "some text"}' 127.0.0.1:60078/notes
+```
+
+```bash
+curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X POST -d '{"title": "tile2", "contents": "some text"}' 127.0.0.1:60078/notes
+```
+
+```bash
+curl -H "Authorization: Bearer token2" -H "Content-Type: application/json" -X POST -d '{"title": "tile3", "contents": "some text"}' 127.0.0.1:60078/notes
+```
+
+```bash
+curl -H "Authorization: Bearer token2" -H "Content-Type: application/json" -X POST -d '{"title": "tile4", "contents": "some text"}' 127.0.0.1:60078/notes
+```
 
 ### GET notes
 
-curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:8080/notes
+```bash
+curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:60078/notes
+```
+
+```bash
+curl -H "Authorization: Bearer token2" -X GET 127.0.0.1:60078/notes
+```
 
 ### GET note
 
-curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:8080/notes/1
+```bash
+curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:60078/notes/1
+```
+
+```bash
+curl -H "Authorization: Bearer token2" -X GET 127.0.0.1:60078/notes/3
+```
 
 ### PATCH note
 
-curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X PATCH -d '{"title": "new title", "contents": "new text"}' 127.0.0.1:8080/notes/1
+```bash
+curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X PATCH -d '{"title": "new title", "contents": "new text"}' 127.0.0.1:60078/notes/1
+```
 
 ### DELETE note
 
-curl -H "Authorization: Bearer token1" -X DELETE 127.0.0.1:8080/notes/1
+```bash
+curl -H "Authorization: Bearer token1" -X DELETE 127.0.0.1:60078/notes/1
+```
