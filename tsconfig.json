@@ -8,7 +8,9 @@
     "skipLibCheck": true,
     "rootDir": "src",
     "outDir": "out",
-    "sourceMap": true
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["src/**/*.ts"]
 }

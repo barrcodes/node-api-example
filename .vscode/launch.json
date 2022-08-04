@@ -16,6 +16,17 @@
             "outFiles": [
                 "${workspaceFolder}/out/**/*.js"
             ]
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "test",
+            "program": "${workspaceRoot}/node_modules/.bin/jest",
+            "cwd": "${workspaceRoot}",
+            "args": ["--i", "--config", "jest.config.ts"],
+            "windows": {
+              "program": "${workspaceFolder}/node_modules/jest/bin/jest"
+            }
+          },
     ]
 }

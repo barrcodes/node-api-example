@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import dotenv from "dotenv"
 import { createApp } from "./app"
 dotenv.config()
@@ -5,7 +6,7 @@ dotenv.config()
 const port = +(process.env.PORT ?? 8080)
 
 if (isNaN(port)) {
-  console.error(`invalid port: ${process.env.PORT}`)
+  console.log(`invalid port: ${process.env.PORT}`)
   process.exit(1)
 }
 

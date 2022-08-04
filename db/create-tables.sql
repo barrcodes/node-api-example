@@ -1,6 +1,7 @@
 CREATE TABLE notes (
-   id integer PRIMARY KEY, 
-   userId integer,
-   title varchar(64),
-   text text NOT NULL
+   id SERIAL PRIMARY KEY, 
+   "createdBy" INTEGER,
+   "createdOn" DATE,
+   title VARCHAR(64) NOT NULL,
+   contents TEXT NOT NULL
 );

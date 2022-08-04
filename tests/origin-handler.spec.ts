@@ -1,6 +1,6 @@
-import { originHandler } from "../src/app"
+import { originHandler } from "../src/handlers"
 
-describe("app", () => {
+describe("originHandler", () => {
   it("should allow origin if there is no whitelist", () => {
     const allowed = originHandler([], "https://test.com")
     expect(allowed).toBe(true)

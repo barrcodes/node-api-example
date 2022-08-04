@@ -55,3 +55,25 @@ For production purposes, I added CORS logic which accepts a whitelist array of o
 ## Unit Tests
 
 Tests can be found in `./tests`, and tests can be run with `npm test`
+
+## Example curl Requests
+
+### POST note
+
+curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X POST -d '{"title": "tile", "contents": "some text"}' 127.0.0.1:8080/notes
+
+### GET notes
+
+curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:8080/notes
+
+### GET note
+
+curl -H "Authorization: Bearer token1" -X GET 127.0.0.1:8080/notes/1
+
+### PATCH note
+
+curl -H "Authorization: Bearer token1" -H "Content-Type: application/json" -X PATCH -d '{"title": "new title", "contents": "new text"}' 127.0.0.1:8080/notes/1
+
+### DELETE note
+
+curl -H "Authorization: Bearer token1" -X DELETE 127.0.0.1:8080/notes/1
