@@ -1,1 +1,0 @@
-{"version":3,"file":"access-error.js","sourceRoot":"","sources":["../../src/errors/access-error.ts"],"names":[],"mappings":";;;AAAA,MAAa,WAAW;IAItB,YAAY,MAAc,EAAE,cAAsB,EAAE,EAAU;QAHvD,SAAI,GAAG,aAAa,CAAA;QAIzB,IAAI,CAAC,OAAO,GAAG,QAAQ,MAAM,oDAAoD,cAAc,OAAO,EAAE,GAAG,CAAA;IAC7G,CAAC;CACF;AAPD,kCAOC"}
