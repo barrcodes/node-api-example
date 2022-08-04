@@ -42,6 +42,8 @@ sudo docker compose -f ./db/docker-compose-postgres.yml --env-file ./.env up
 
 ### Initialize the postgres database:
 
+In a new terminal tab or window, initialize the postgres db.
+
 On Mac / Linux / WSL:
 
 ```bash
@@ -66,12 +68,6 @@ psql -h '127.0.0.1' -p 25580 -U myapiuser -W -f [/absolute/path/to/db/create-tab
 npm i
 ```
 
-### Run the application
-
-```bash
-npm start
-```
-
 ### Run Unit Tests
 
 Tests can be found in `./tests`, and tests can be run with
@@ -80,11 +76,19 @@ Tests can be found in `./tests`, and tests can be run with
 npm test
 ```
 
+### Run the application
+
+```bash
+npm start
+```
+
 ### Optional Environment Variables
 
 `ALLOW_LIST=origin1,origin2`: A list of CORS allowed orgins. However, running the application locally will not trigger this logic, as origin will be undefined. Unit tests for these cases have been written.
 
 ## Example curl Requests
+
+While the application is running, in a new terminal tab or window:
 
 ### POST note
 
